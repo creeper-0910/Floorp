@@ -185,8 +185,6 @@ class OSXBootstrapper(OSXAndroidBootstrapper, BaseBootstrapper):
             )
 
         packages = ["git", "gnu-tar", "terminal-notifier", "watchman"]
-        if not hg_modern:
-            packages.append("mercurial")
         self._ensure_homebrew_packages(packages)
 
     def install_browser_packages(self, mozconfig_builder):
