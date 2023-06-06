@@ -506,10 +506,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
-
     - name: Create environment 🌲
       run: |
         export MOZ_BUILD_DATE=${{ needs.get-buildid.outputs.buildids }}
@@ -566,9 +562,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4
-      with:
-        python-version: '3.10' 
 
     - name: Create environment 🌲
       run: |
