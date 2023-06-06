@@ -671,3 +671,4 @@ jobs:
     needs: [build-linux-x86_64-with-PGO, build-linux-aarch64, cleanup-darwin-artifact, build-with-profdata-and-jarlog]
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
