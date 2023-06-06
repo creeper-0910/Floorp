@@ -668,7 +668,7 @@ jobs:
          obj-aarch64-apple-darwin
 
   Deployments:
-    needs: [build-linux-x86_64-with-PGO, build-linux-aarch64, cleanup-darwin-artifact, build-with-profdata-and-jarlog]
+    needs: [build-linux-x86_64-with-PGO, build-linux-aarch64, integration , build-with-profdata-and-jarlog]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
