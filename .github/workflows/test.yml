@@ -16,7 +16,7 @@ jobs:
     runs-on: ${{ matrix.runs-on }}
     strategy:
       matrix:
-        runs-on: ["buildjet-16vcpu-ubuntu-2204"]
+        runs-on: ["ubuntu-latest"]
 
     steps:
     - name: Init
@@ -129,17 +129,6 @@ jobs:
         name: floorp-windows-x86_64-build-with-enable-profile-generate
         path: ${{ env.RUNNER_USERDIR }}/output
 
-    - name: Clean up (Self-hosted only)
-      if: contains(matrix.runs-on, 'self-hosted')
-      run: |
-        rm -rf $RUNNER_USERDIR/output
-        rm -rf $RUNNER_USERDIR/win-cross
-        rm -rf $RUNNER_USERDIR/.mozbuild
-        rm -rf $RUNNER_USERDIR/.cargo
-        rm -rf $RUNNER_USERDIR/l10n-central
-        rm -rf $GITHUB_WORKSPACE
-        mkdir $GITHUB_WORKSPACE
-
   generate-profdata-and-jarlog:
     name: Generate profdata and jarlog
 
@@ -186,24 +175,13 @@ jobs:
     runs-on: ${{ matrix.runs-on }}
     strategy:
       matrix:
-        runs-on: ["buildjet-16vcpu-ubuntu-2204"]
+        runs-on: ["ubuntu-latest"]
 
     steps:
     - name: Init
       run: |
         export RUNNER_USERDIR=`echo ~`
         echo "RUNNER_USERDIR=$RUNNER_USERDIR" >> $GITHUB_ENV
-
-    - name: Clean up (Self-hosted only)
-      if: contains(matrix.runs-on, 'self-hosted')
-      run: |
-        rm -rf $RUNNER_USERDIR/output
-        rm -rf $RUNNER_USERDIR/win-cross
-        rm -rf $RUNNER_USERDIR/.mozbuild
-        rm -rf $RUNNER_USERDIR/.cargo
-        rm -rf $RUNNER_USERDIR/l10n-central
-        rm -rf $GITHUB_WORKSPACE
-        mkdir $GITHUB_WORKSPACE
 
     - name: Change PPA mirror servers
       run: |
@@ -315,19 +293,8 @@ jobs:
         name: please-use-this-floorp-windows-x86_64-package-build-with-profdata-and-jarlog
         path: ${{ env.RUNNER_USERDIR }}/output
 
-    - name: Clean up (Self-hosted only)
-      if: contains(matrix.runs-on, 'self-hosted')
-      run: |
-        rm -rf $RUNNER_USERDIR/output
-        rm -rf $RUNNER_USERDIR/win-cross
-        rm -rf $RUNNER_USERDIR/.mozbuild
-        rm -rf $RUNNER_USERDIR/.cargo
-        rm -rf $RUNNER_USERDIR/l10n-central
-        rm -rf $GITHUB_WORKSPACE
-        mkdir $GITHUB_WORKSPACE
-
   build-linux-x86_64-with-PGO:
-    runs-on: buildjet-16vcpu-ubuntu-2204
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
@@ -421,7 +388,7 @@ jobs:
          path: dist.zip
 
   build-linux-aarch64:
-    runs-on: buildjet-16vcpu-ubuntu-2204
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
@@ -547,6 +514,8 @@ jobs:
       run: |
         export MOZ_BUILD_DATE=${{ needs.get-buildid.outputs.buildids }}
         git clone https://github.com/floorp-projects/l10n-central
+        brew update
+        brew upgrade
         ./mach --no-interactive bootstrap --application-choice browser
         rustup target add aarch64-apple-darwin
         echo 'ac_add_options --disable-tests' >> mozconfig
@@ -605,6 +574,8 @@ jobs:
       run: |
         export MOZ_BUILD_DATE=${{ needs.get-buildid.outputs.buildids }}
         git clone https://github.com/floorp-projects/l10n-central
+        brew update
+        brew upgrade
         ./mach --no-interactive bootstrap --application-choice browser
         echo 'ac_add_options --disable-tests' >> mozconfig
         echo 'ac_add_options --disable-updater' >> mozconfig
@@ -686,7 +657,7 @@ jobs:
         name: Universal-Artifact
         path: floorp-macOS-universal.dmg
 
-  cleanup:
+  cleanup-darwin-artifact:
     needs: integration
     runs-on: ubuntu-latest
     steps:
@@ -695,3 +666,8 @@ jobs:
         name: |
          obj-x86_64-apple-darwin
          obj-aarch64-apple-darwin
+
+  Deployments:
+    needs: [build-linux-x86_64-with-PGO, build-linux-aarch64, cleanup-darwin-artifact, build-with-profdata-and-jarlog]
+    runs-on: ubuntu-latest
+    steps:
