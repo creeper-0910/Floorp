@@ -519,13 +519,19 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Install Mercurial 📦
+      run: |
+        echo 'export PATH="'"$(python3 -m site --user-base)"'/bin:$PATH"' >> ~/.zshenv
+        python3 -m pip install --user mercurial==6.1.4
+        source ~/.zshenv
+        echo "##################"
+        hg version
+        echo "##################"
+
     - name: Create environment 🌲
       run: |
         export MOZ_BUILD_DATE=${{ needs.get-buildid.outputs.buildids }}
         git clone https://github.com/floorp-projects/l10n-central
-        brew update
-        brew upgrade
-        ./mach --no-interactive bootstrap --application-choice browser
         rustup target add aarch64-apple-darwin
         echo 'ac_add_options --disable-tests' >> mozconfig
         echo 'ac_add_options --disable-updater' >> mozconfig
@@ -548,6 +554,7 @@ jobs:
         echo 'MOZ_REQUIRE_SIGNING=' >> mozconfig
         echo 'MOZ_DATA_REPORTING=' >> mozconfig
         echo 'MOZ_TELEMETRY_REPORTING=' >> mozconfig
+        ./mach --no-interactive bootstrap --application-choice browser
         ./mach configure
 
     - name: Build 🔨
@@ -575,6 +582,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+
+    - name: Install Mercurial 📦
+      run: |
+        echo 'export PATH="'"$(python3 -m site --user-base)"'/bin:$PATH"' >> ~/.zshenv
+        python3 -m pip install --user mercurial==6.1.4
+        source ~/.zshenv
+        echo "##################"
+        hg version
+        echo "##################"
 
     - name: Create environment 🌲
       run: |
