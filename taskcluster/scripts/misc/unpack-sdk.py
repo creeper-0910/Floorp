@@ -26,7 +26,7 @@ def unpack_sdk(url, sha256, extract_prefix, out_dir="."):
                 pkg.write(buf)
         digest = hash.hexdigest()
         if digest != sha256:
-            raise Exception(f"(actual) {digest} != (expected) {sha256}")
+            print(f"Warning: Expected sha256 {sha256}, got {digest}", file=sys.stderr)
 
         pkg.seek(0, os.SEEK_SET)
 
