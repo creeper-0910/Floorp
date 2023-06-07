@@ -318,7 +318,7 @@ jobs:
          sudo chmod 600 /mnt/swapfile
          sudo mkswap /mnt/swapfile
          sudo swapon /mnt/swapfile
-         sudo apt remove -y '^dotnet-.*' '^llvm-.*' '^php.*' '^mongodb-.*' '^mysql-.*' azure-cli google-cloud-sdk hhvm google-chrome-stable firefox powershell mono-devel libgl1-mesa-dri
+         sudo apt remove -y '^dotnet-.*' '^llvm-.*' '^php.*' '^mongodb-.*' '^mysql-.*' azure-cli google-cloud-sdk google-chrome-stable firefox powershell mono-devel libgl1-mesa-dri
          sudo apt autoremove -y
          sudo apt clean
          sudo rm -rf /usr/share/dotnet
@@ -330,6 +330,12 @@ jobs:
          sudo rm -rf /opt/ghc
          sudo rm -rf /usr/local/share/boost
          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+         sudo rm -rf /etc/apache2
+         sudo rm -rf /etc/nginx
+         sudo rm -rf /usr/local/share/chrome_driver
+         sudo rm -rf /usr/local/share/edge_driver
+         sudo rm -rf /usr/local/share/gecko_driver
+         sudo rm -rf /usr/share/java
          sudo fallocate -l 10G /home/runner/swapfile2
          sudo chmod 600 /home/runner/swapfile2
          sudo mkswap /home/runner/swapfile2
@@ -413,7 +419,7 @@ jobs:
           sudo chmod 600 /mnt/swapfile
           sudo mkswap /mnt/swapfile
           sudo swapon /mnt/swapfile
-          sudo apt remove -y '^dotnet-.*' '^llvm-.*' '^php.*' '^mongodb-.*' '^mysql-.*' azure-cli google-cloud-sdk hhvm google-chrome-stable firefox powershell mono-devel libgl1-mesa-dri
+          sudo apt remove -y '^dotnet-.*' '^llvm-.*' '^php.*' '^mongodb-.*' '^mysql-.*' azure-cli google-cloud-sdk google-chrome-stable firefox powershell mono-devel libgl1-mesa-dri
           sudo apt autoremove -y
           sudo apt clean
           sudo rm -rf /usr/share/dotnet
@@ -425,6 +431,12 @@ jobs:
           sudo rm -rf /opt/ghc
           sudo rm -rf /usr/local/share/boost
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          sudo rm -rf /etc/apache2
+          sudo rm -rf /etc/nginx
+          sudo rm -rf /usr/local/share/chrome_driver
+          sudo rm -rf /usr/local/share/edge_driver
+          sudo rm -rf /usr/local/share/gecko_driver
+          sudo rm -rf /usr/share/java
           sudo fallocate -l 10G /home/runner/swapfile2
           sudo chmod 600 /home/runner/swapfile2
           sudo mkswap /home/runner/swapfile2
