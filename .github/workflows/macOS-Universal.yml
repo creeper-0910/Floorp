@@ -101,7 +101,8 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: Install Mercurial 📦
+
+    - name: Create environment 🌲
       run: |
         echo 'export PATH="'"$(python3 -m site --user-base)"'/bin:$PATH"' >> ~/.zshenv
         python3 -m pip install --user mercurial==6.1.4
@@ -109,9 +110,6 @@ jobs:
         echo "##################"
         hg version
         echo "##################"
-
-    - name: Create environment 🌲
-      run: |
         export MOZ_BUILD_DATE=${{ needs.get-buildid.outputs.buildids }}
         git clone https://github.com/floorp-projects/l10n-central
         ./mach --no-interactive bootstrap --application-choice browser
