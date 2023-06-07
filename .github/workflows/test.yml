@@ -406,7 +406,7 @@ jobs:
           sudo apt update
 
       - name: Setup Disk & Swap Space 💿
-        if: runner.name == 'buildjet-16vcpu-ubuntu-2204'
+        if: runner.name != 'buildjet-16vcpu-ubuntu-2204'
         run: |
           echo Before:
           free -h
