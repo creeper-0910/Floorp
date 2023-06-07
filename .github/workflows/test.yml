@@ -41,7 +41,7 @@ jobs:
         sudo apt update
 
     - name: Setup Disk & Swap Space 💿
-      if: matrix.runs-on == 'ubuntu-22.04' || matrix.runs-on == 'ubuntu-latest'
+      if: matrix.runs-on != 'buildjet-16vcpu-ubuntu-2204'
       run: |
         echo Before:
         free -h
@@ -189,7 +189,7 @@ jobs:
         sudo apt update
 
     - name: Setup Disk & Swap Space 💿
-      if: matrix.runs-on == 'ubuntu-22.04' || matrix.runs-on == 'ubuntu-latest'
+      if: matrix.runs-on != 'buildjet-16vcpu-ubuntu-2204'
       run: |
         echo Before:
         free -h
@@ -305,7 +305,7 @@ jobs:
 
     
       - name: Setup Disk & Swap Space 💿
-        if: runner.name == 'ubuntu-latest' || runner.name == 'ubuntu-20.04'
+        if: runner.name != 'buildjet-16vcpu-ubuntu-2204'
         run: |
          echo Before:
          free -h
@@ -339,6 +339,7 @@ jobs:
          echo After:
          free -h
          df -h
+
       - name: Create environment 🌲
         run: |
          sudo apt update
@@ -397,9 +398,9 @@ jobs:
         run: |
           sudo perl -p -i -e 's%(deb(?:-src|)\s+)https?://(?!archive\.canonical\.com|security\.ubuntu\.com)[^\s]+%$1http://archive.ubuntu.com/ubuntu/%' /etc/apt/sources.list
           sudo apt update
-  
+
       - name: Setup Disk & Swap Space 💿
-        if: runner.name == 'ubuntu-latest' || runner.name == 'ubuntu-20.04'
+        if: runner.name == 'buildjet-16vcpu-ubuntu-2204'
         run: |
           echo Before:
           free -h
